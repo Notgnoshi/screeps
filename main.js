@@ -1,6 +1,8 @@
-let roleBuilder = require("role.builder");
-let roleHarvester = require("role.harvester");
-let roleUpgrader = require("role.upgrader");
+let Roles = {
+    builder: require("role.builder"),
+    harvester: require("role.harvester"),
+    upgrader: require("role.upgrader"),
+};
 
 let _ = require("lodash");
 
@@ -44,11 +46,11 @@ function spawn_creeps() {
 function manage_live_creeps() {
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if (creep.memory.role == "harvester") {
-            roleHarvester.run(creep);
-        }
-        if (creep.memory.role == "upgrader") {
-            roleUpgrader.run(creep);
+
+        if (Roles[creep.memory.role]) {
+            Roles[creep.memory.role].run(creep);
+        } else {
+            console.log("Failed to find role " + creep.memory.role);
         }
     }
 }

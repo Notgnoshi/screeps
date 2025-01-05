@@ -1,3 +1,5 @@
+let roleUpgrader = require("role.upgrader");
+
 var roleBuilder = {
     /** @param {Creep} creep **/
     run: function (creep) {
@@ -10,17 +12,13 @@ var roleBuilder = {
         }
 
         if (creep.memory.working == true) {
-            let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-                filter: (s) =>
-                    (s.structureType == STRUCTURE_SPAWN ||
-                        s.structureType == STRUCTURE_EXTENSION ||
-                        s.structureType == STRUCTURE_TOWER) &&
-                    s.energy < s.energyCapacity,
-            });
-            if (structure != undefined) {
-                if (creep.transfer(structure, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(structure);
+            let site = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
+            if (site != undefined) {
+                if (creep.build(site) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(site);
                 }
+            } else {
+                roleUpgrader.run(creep);
             }
         } else {
             let source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
