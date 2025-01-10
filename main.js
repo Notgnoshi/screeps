@@ -19,7 +19,7 @@ function spawn_creeps() {
         {
             name: "upgrader",
             components: [WORK, CARRY, MOVE],
-            needed: 2,
+            needed: 1,
         },
         {
             name: "builder",
