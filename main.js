@@ -65,6 +65,8 @@ function manage_live_creeps() {
             Roles[creep.memory.role].run(creep);
         } else {
             console.log("Failed to find role " + creep.memory.role);
+            // fallback on harvester, because that's better than sitting still
+            Roles["harvester"].run(creep);
         }
     }
 }
