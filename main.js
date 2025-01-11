@@ -1,6 +1,7 @@
 let Roles = {
     builder: require("role.builder"),
     harvester: require("role.harvester"),
+    miner: require("role.miner"),
     repairer: require("role.repairer"),
     upgrader: require("role.upgrader"),
 };
@@ -10,6 +11,8 @@ let _ = require("lodash");
 function spawn_creeps() {
     let spawn = Game.spawns["Spawn1"];
     let creeps = spawn.room.find(FIND_MY_CREEPS);
+
+    let num_sources = spawn.room.find(FIND_SOURCES).length;
 
     let roles = [
         {
@@ -31,7 +34,12 @@ function spawn_creeps() {
             name: "repairer",
             components: [WORK, WORK, CARRY, MOVE],
             needed: 1,
-        }
+        },
+        {
+            name: "miner",
+            components: [WORK, WORK, CARRY, MOVE],
+            needed: num_sources,
+        },
     ];
     for (let role of roles) {
         let num = _.sum(creeps, (c) => c.memory.role == role.name);
@@ -68,11 +76,6 @@ function cleanup_dead_creeps() {
             delete Memory.creeps[name];
         }
     }
-}
-
-function assign_miners() {
-    let spawn = Game.spawns["Spawn1"];
-    let creeps = spawn.room.find(FIND_MY_CREEPS, { filter: (c) => c.memory.role == "miner" });
 }
 
 function main() {
