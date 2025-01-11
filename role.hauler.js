@@ -23,7 +23,7 @@ class HaulerRole extends Role {
         }
 
         if (creep.transfer(structure, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(structure, { visualizePathStyle: { stroke: "$FFFFFF" } });
+            creep.moveTo(structure, { visualizePathStyle: { stroke: "#FFFFFF" } });
         }
     }
 }
