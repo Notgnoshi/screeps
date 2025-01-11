@@ -23,21 +23,21 @@ function spawn_creeps() {
         {
             name: "hauler",
             components: [WORK, WORK, CARRY, MOVE],
-            needed: 1,
+            needed: 2,
         },
         {
             name: "builder",
             components: [WORK, WORK, CARRY, MOVE],
-            needed: 2,
+            needed: 4,
         },
         {
             name: "repairer",
             components: [WORK, WORK, CARRY, MOVE],
-            needed: 1,
+            needed: 2,
         },
         {
             name: "miner",
-            components: [WORK, WORK, CARRY, MOVE],
+            components: [WORK, WORK, WORK, WORK, CARRY, MOVE],
             needed: num_sources,
         },
     ];
