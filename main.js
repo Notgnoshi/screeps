@@ -1,9 +1,9 @@
 let Roles = {
     builder: require("role.builder"),
     harvester: require("role.harvester"),
+    hauler: require("role.hauler"),
     miner: require("role.miner"),
     repairer: require("role.repairer"),
-    upgrader: require("role.upgrader"),
 };
 
 let _ = require("lodash");
@@ -21,7 +21,7 @@ function spawn_creeps() {
             needed: 1,
         },
         {
-            name: "upgrader",
+            name: "hauler",
             components: [WORK, WORK, CARRY, MOVE],
             needed: 1,
         },
