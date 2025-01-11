@@ -18,6 +18,11 @@ class HarvesterRole extends Role {
             BuilderRole.run_in_work(creep);
         }
     }
+
+    static run_out_of_work(creep) {
+        // Harvest just from sources, not containers
+        Role.harvest_from_source(creep);
+    }
 }
 
 module.exports = HarvesterRole;

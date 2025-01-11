@@ -20,11 +20,29 @@ class Role {
 
     static run_in_work(creep) {}
 
-    static run_out_of_work(creep) {
-        // TODO: Include energy storage buildings
+    static withdraw_from_container(creep) {
+        let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+            filter: (s) => s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] > 0,
+        });
+        if (container != undefined) {
+            if (creep.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(container);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    static harvest_from_source(creep) {
         let source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
         if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
             creep.moveTo(source);
+        }
+    }
+
+    static run_out_of_work(creep) {
+        if (!Role.withdraw_from_container(creep)) {
+            Role.harvest_from_source(creep);
         }
     }
 }
