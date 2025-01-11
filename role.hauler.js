@@ -1,6 +1,7 @@
 let Role = require("role");
 
 class HaulerRole extends Role {
+    /** @param {Creep} creep **/
     static run_in_work(creep) {
         var structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
             filter: (s) =>

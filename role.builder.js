@@ -2,6 +2,7 @@ let Role = require("role");
 let HaulerRole = require("role.hauler");
 
 class BuilderRole extends Role {
+    /** @param {Creep} creep **/
     static run_in_work(creep) {
         let site = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
         if (site != undefined) {
