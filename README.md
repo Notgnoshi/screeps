@@ -17,7 +17,7 @@ npm install @types/lodash
   * [X] tsserver
   * [X] prettier
   * [X] eslint
-* [ ] Add `Tower` behavior for repair and defense
+* [X] Add `Tower` behavior for repair and defense
 * [ ] `.energy` and `.energyCapacity` are deprecated in favor of `.store`
 * [ ] Make creep components dependent on energy availability (maybe max energy availability?)
 * [ ] Move creep spawning logic into `Role`s?

@@ -1,3 +1,4 @@
+let TowerRole = require("tower");
 let Roles = {
     builder: require("role.builder"),
     harvester: require("role.harvester"),
@@ -57,6 +58,13 @@ function spawn_creeps() {
     }
 }
 
+function manage_towers() {
+    let my_towers = _.filter(Game.structures, s => s.structureType == STRUCTURE_TOWER);
+    for (let tower of my_towers) {
+        TowerRole.run(tower);
+    }
+}
+
 function manage_live_creeps() {
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -83,6 +91,7 @@ function cleanup_dead_creeps() {
 function main() {
     cleanup_dead_creeps();
     spawn_creeps();
+    manage_towers();
     manage_live_creeps();
 }
 
