@@ -50,6 +50,7 @@ npm install @types/lodash
   * [x] eslint
 * [x] Add `Tower` behavior for repair and defense
 * [ ] Upgrading is too slow. Fallback roles aren't quite right
+* [ ] Need manager / logistics coordinator
 * [ ] `.energy` and `.energyCapacity` are deprecated in favor of `.store`
 * [ ] Make creep components dependent on energy availability (maybe max energy availability?)
 * [ ] Move creep spawning logic into `Role`s?
