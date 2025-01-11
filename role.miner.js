@@ -6,7 +6,7 @@ class MinerRole extends Role {
     /** @param {Creep} creep **/
     static run_in_work(creep) {
         if (creep.memory.assigned_source == undefined) {
-            MinerRole.assign_miner_to_unclaimed_source(creep);
+            this.assign_miner_to_unclaimed_source(creep);
         }
 
         // Assignment failed. The creep should still do something useful

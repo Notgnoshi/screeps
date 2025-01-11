@@ -47,8 +47,8 @@ class Role {
 
     /** @param {Creep} creep **/
     static run_out_of_work(creep) {
-        if (!Role.withdraw_from_container(creep)) {
-            Role.harvest_from_source(creep);
+        if (!this.withdraw_from_container(creep)) {
+            this.harvest_from_source(creep);
         }
     }
 }
