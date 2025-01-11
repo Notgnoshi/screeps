@@ -6,7 +6,7 @@ class BuilderRole extends Role {
         let site = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
         if (site != undefined) {
             if (creep.build(site) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(site);
+                creep.moveTo(site, { visualizePathStyle: { stroke: "#FFAA00" } });
             }
         } else {
             UpgraderRole.run_in_work(creep);

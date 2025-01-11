@@ -12,7 +12,7 @@ class HarvesterRole extends Role {
         });
         if (structure != undefined) {
             if (creep.transfer(structure, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(structure);
+                creep.moveTo(structure, { visualizePathStyle: { stroke: "#FFAA00" } });
             }
         } else {
             BuilderRole.run_in_work(creep);
