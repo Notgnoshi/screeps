@@ -8,7 +8,33 @@ class MinerRole extends Role {
             MinerRole.assign_miner_to_unclaimed_source(creep);
         }
 
-        HarvesterRole.run_in_work(creep);
+        // Assignment failed. The creep should still do something useful
+        if (creep.memory.assigned_source == undefined) {
+            HarvesterRole.run_in_work(creep);
+            return;
+        }
+
+        let source = Game.getObjectById(creep.memory.assigned_source);
+
+        let container = source.pos.findInRange(FIND_STRUCTURES, 2, {
+            filter: (s) => s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE,
+        })[0];
+
+        if (creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(container);
+        }
+    }
+
+    static run_out_of_work(creep) {
+        if (creep.memory.assigned_source == undefined) {
+            HarvesterRole.run_out_of_work(creep);
+            return;
+        }
+
+        let source = Game.getObjectById(creep.memory.assigned_source);
+        if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(source);
+        }
     }
 
     static assign_miner_to_unclaimed_source(creep) {
