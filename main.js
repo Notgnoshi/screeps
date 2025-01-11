@@ -14,22 +14,22 @@ function spawn_creeps() {
     let roles = [
         {
             name: "harvester",
-            components: [WORK, CARRY, MOVE],
+            components: [WORK, WORK, CARRY, MOVE],
             needed: 1,
         },
         {
             name: "upgrader",
-            components: [WORK, CARRY, MOVE],
+            components: [WORK, WORK, CARRY, MOVE],
             needed: 1,
         },
         {
             name: "builder",
-            components: [WORK, CARRY, MOVE],
+            components: [WORK, WORK, CARRY, MOVE],
             needed: 2,
         },
         {
             name: "repairer",
-            components: [WORK, CARRY, MOVE],
+            components: [WORK, WORK, CARRY, MOVE],
             needed: 1,
         }
     ];
