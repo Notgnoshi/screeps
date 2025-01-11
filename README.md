@@ -1,6 +1,14 @@
 # screeps
 Embarassing screeps code; probably don't look at this
 
+## Vim ALE LSP configuration
+
+```sh
+npm install -g typescript-language-server typescript
+npm install @types/screeps
+npm install @types/lodash
+```
+
 ## TODO list
 
 * [X] Add `Role` class heirarchy, to enable code-sharing between roles, which in turn enables
