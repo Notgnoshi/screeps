@@ -13,10 +13,10 @@ npm install @types/lodash
 
 * [X] Add `Role` class heirarchy, to enable code-sharing between roles, which in turn enables
       fallback `Role`s.
-* [ ] IDE integration
+* [X] IDE integration
   * [X] tsserver
   * [X] prettier
-  * [ ] eslint
+  * [X] eslint
 * [ ] Add `Tower` behavior for repair and defense
 * [ ] `.energy` and `.energyCapacity` are deprecated in favor of `.store`
 * [ ] Make creep components dependent on energy availability (maybe max energy availability?)
