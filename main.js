@@ -5,6 +5,7 @@ let Roles = {
     hauler: require("role.hauler"),
     miner: require("role.miner"),
     repairer: require("role.repairer"),
+    upgrader: require("role.upgrader"),
 };
 
 let _ = require("lodash");
@@ -17,6 +18,11 @@ function spawn_creeps() {
 
     let roles = [
         {
+            name: "builder",
+            components: [WORK, WORK, CARRY, MOVE],
+            needed: 4,
+        },
+        {
             name: "harvester",
             components: [WORK, WORK, CARRY, MOVE],
             needed: 1,
@@ -27,9 +33,9 @@ function spawn_creeps() {
             needed: 3,
         },
         {
-            name: "builder",
-            components: [WORK, WORK, CARRY, MOVE],
-            needed: 4,
+            name: "miner",
+            components: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
+            needed: num_sources,
         },
         {
             name: "repairer",
@@ -37,9 +43,10 @@ function spawn_creeps() {
             needed: 2,
         },
         {
-            name: "miner",
-            components: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
-            needed: num_sources,
+            name: "upgrader",
+            components: [WORK, CARRY, CARRY, MOVE, MOVE],
+            // Don't need many upgraders, since it's a fallback of every role
+            needed: 2,
         },
     ];
     for (let role of roles) {

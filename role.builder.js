@@ -1,5 +1,5 @@
 let Role = require("role");
-let HaulerRole = require("role.hauler");
+let UpgraderRole = require("role.upgrader");
 
 class BuilderRole extends Role {
     /** @param {Creep} creep **/
@@ -10,7 +10,7 @@ class BuilderRole extends Role {
                 creep.moveTo(site, { visualizePathStyle: { stroke: "#FFAA00" } });
             }
         } else {
-            HaulerRole.run_in_work(creep);
+            UpgraderRole.run_in_work(creep);
         }
     }
 }

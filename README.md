@@ -8,7 +8,8 @@ The `Role` class enables adding fallback behavior if a role cannot be performed
 
 ```mermaid
 flowchart TD
-    Miner --> Harvester --> Builder --> Hauler
+    Hauler --> Upgrader
+    Miner --> Harvester --> Builder --> Upgrader
     Repairer --> Builder
 ```
 
@@ -27,10 +28,12 @@ themselves if there's no energy available in a container.
   Falls back on `BuilderRole` if there's no need for hauling
 * `BuilderRole` - Builds any available construction sites
 
-  Falls back on `HaulerRole` if there's nothing to build
+  Falls back on `UpgraderRole` if there's nothing to build
 * `RepairerRole` - Repairs any damaged structures
 
   Falls back on `BuilderRole` if there's nothing to repair
+* `UpgraderRole` - Upgrades the room controller. Has no fallback, and is intended to be the fallback
+  of most roles.
 
 ## Vim ALE LSP configuration
 
