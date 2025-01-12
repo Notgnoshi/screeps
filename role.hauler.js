@@ -1,7 +1,17 @@
 let Role = require("role");
-let UpgraderRole = require("role.upgrader");
+let Upgrader = require("role.upgrader");
 
-class HaulerRole extends Role {
+class Hauler extends Role {
+    /** @param {StructureSpawn} spawn **/
+    static components(spawn) {
+        return [WORK, CARRY, CARRY, MOVE, MOVE];
+    }
+
+    /** @param {StructureSpawn} spawn **/
+    static num_creeps_needed(spawn) {
+        return 3;
+    }
+
     /** @param {Creep} creep **/
     static run_in_work(creep) {
         // Prioritize "useful" buildings over storage
@@ -20,7 +30,7 @@ class HaulerRole extends Role {
 
         // If there's nothing to haul to, upgrade the controller
         if (structure == undefined) {
-            return UpgraderRole.run_in_work(creep);
+            return Upgrader.run_in_work(creep);
         }
 
         if (creep.transfer(structure, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
@@ -28,4 +38,4 @@ class HaulerRole extends Role {
         }
     }
 }
-module.exports = HaulerRole;
+module.exports = Hauler;

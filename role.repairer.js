@@ -1,7 +1,17 @@
 let Role = require("role");
-let BuilderRole = require("role.builder");
+let Builder = require("role.builder");
 
-class RepairerRole extends Role {
+class Repairer extends Role {
+    /** @param {StructureSpawn} spawn **/
+    static components(spawn) {
+        return [WORK, WORK, CARRY, CARRY, MOVE, MOVE];
+    }
+
+    /** @param {StructureSpawn} spawn **/
+    static num_creeps_needed(spawn) {
+        return 1;
+    }
+
     /** @param {Creep} creep **/
     static run_in_work(creep) {
         let structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {
@@ -12,9 +22,9 @@ class RepairerRole extends Role {
                 creep.moveTo(structure, { visualizePathStyle: { stroke: "#FFAA00" } });
             }
         } else {
-            BuilderRole.run_in_work(creep);
+            Builder.run_in_work(creep);
         }
     }
 }
 
-module.exports = RepairerRole;
+module.exports = Repairer;

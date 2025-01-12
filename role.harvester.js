@@ -1,7 +1,17 @@
 let Role = require("role");
-let BuilderRole = require("role.builder");
+let Builder = require("role.builder");
 
-class HarvesterRole extends Role {
+class Harvester extends Role {
+    /** @param {StructureSpawn} spawn **/
+    static components(spawn) {
+        return [WORK, WORK, CARRY, MOVE];
+    }
+
+    /** @param {StructureSpawn} spawn **/
+    static num_creeps_needed(spawn) {
+        return 1;
+    }
+
     /** @param {Creep} creep **/
     static run_in_work(creep) {
         let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
@@ -16,7 +26,7 @@ class HarvesterRole extends Role {
                 creep.moveTo(structure, { visualizePathStyle: { stroke: "#FFAA00" } });
             }
         } else {
-            BuilderRole.run_in_work(creep);
+            Builder.run_in_work(creep);
         }
     }
 
@@ -27,4 +37,4 @@ class HarvesterRole extends Role {
     }
 }
 
-module.exports = HarvesterRole;
+module.exports = Harvester;

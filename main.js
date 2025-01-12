@@ -12,56 +12,10 @@ let _ = require("lodash");
 
 function spawn_creeps() {
     let spawn = Game.spawns["Spawn1"];
-    let creeps = spawn.room.find(FIND_MY_CREEPS);
 
-    let num_sources = spawn.room.find(FIND_SOURCES).length;
-
-    let roles = [
-        {
-            name: "builder",
-            components: [WORK, WORK, CARRY, MOVE],
-            needed: 4,
-        },
-        {
-            name: "harvester",
-            components: [WORK, WORK, CARRY, MOVE],
-            needed: 1,
-        },
-        {
-            name: "hauler",
-            components: [WORK, CARRY, CARRY, MOVE, MOVE],
-            needed: 3,
-        },
-        {
-            name: "miner",
-            components: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
-            needed: num_sources,
-        },
-        {
-            name: "repairer",
-            components: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
-            needed: 2,
-        },
-        {
-            name: "upgrader",
-            components: [WORK, CARRY, CARRY, MOVE, MOVE],
-            // Don't need many upgraders, since it's a fallback of every role
-            needed: 2,
-        },
-    ];
-    for (let role of roles) {
-        let num = _.sum(creeps, (c) => c.memory.role == role.name);
-        if (num < role.needed) {
-            let difference = role.needed - num;
-            console.log("Need " + difference + " more " + role.name);
-            let name = role.name + Game.time;
-            let status = spawn.spawnCreep(role.components, name, { memory: { role: role.name, working: false } });
-            if (status == OK) {
-                console.log("Spawned " + name);
-            } else {
-                console.log("Failed to spawn " + name + ": " + status);
-            }
-        }
+    for (let role_name in Roles) {
+        let role = Roles[role_name];
+        role.spawn_if_needed(spawn);
     }
 }
 
@@ -77,6 +31,7 @@ function manage_live_creeps() {
         let creep = Game.creeps[name];
 
         if (Roles[creep.memory.role]) {
+            // console.log(`${Roles[creep.memory.role]}`);
             Roles[creep.memory.role].run(creep);
         } else {
             console.log("Failed to find role " + creep.memory.role);

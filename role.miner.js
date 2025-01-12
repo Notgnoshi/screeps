@@ -1,8 +1,19 @@
 let Role = require("role");
 let _ = require("lodash");
-let HarvesterRole = require("role.harvester");
+let Harvester = require("role.harvester");
 
-class MinerRole extends Role {
+class Miner extends Role {
+    /** @param {StructureSpawn} spawn **/
+    static components(spawn) {
+        // TODO: Make the #WORK components depend on available energy
+        return [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE];
+    }
+
+    /** @param {StructureSpawn} spawn **/
+    static num_creeps_needed(spawn) {
+        return spawn.room.find(FIND_SOURCES).length;
+    }
+
     /** @param {Creep} creep **/
     static run_in_work(creep) {
         if (creep.memory.assigned_source == undefined) {
@@ -11,7 +22,7 @@ class MinerRole extends Role {
 
         // Assignment failed. The creep should still do something useful
         if (creep.memory.assigned_source == undefined) {
-            HarvesterRole.run_in_work(creep);
+            Harvester.run_in_work(creep);
             return;
         }
 
@@ -33,7 +44,7 @@ class MinerRole extends Role {
     /** @param {Creep} creep **/
     static run_out_of_work(creep) {
         if (creep.memory.assigned_source == undefined) {
-            HarvesterRole.run_out_of_work(creep);
+            Harvester.run_out_of_work(creep);
             return;
         }
 
@@ -68,4 +79,4 @@ class MinerRole extends Role {
     }
 }
 
-module.exports = MinerRole;
+module.exports = Miner;

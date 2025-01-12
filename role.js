@@ -1,4 +1,74 @@
+let _ = require("lodash");
+
+// TODO: Using static methods is how I got fallback behavior to work. Otherwise, I'd need a
+// potentially very complex inheritance tree? But now, moving spawning behavior into Roles, I'm
+// second guessing.
 class Role {
+    /** Get the body components suitable for this Role in the given room
+     *
+     * @param {StructureSpawn} spawn **/
+    static components(spawn) {
+        return [WORK, CARRY, MOVE];
+    }
+
+    /** Total number of creeps in the given spawn's room that should be assigned to this Role
+     *
+     * @param {StructureSpawn} spawn **/
+    static num_creeps_needed(spawn) {
+        return 0;
+    }
+
+    /** Get the actual number of creep assigned to this Role in the given room
+     *
+     * @param {StructureSpawn} spawn **/
+    static num_creeps_actual(spawn) {
+        let creeps = spawn.room.find(FIND_MY_CREEPS);
+        let num = _.sum(creeps, (c) => c.memory.assigned_role == this.name || c.memory.role == this.name.toLowerCase());
+        return num;
+    }
+
+    /** Spawn a new creep assigned to this Role
+     *
+     * @param {StructureSpawn} spawn **/
+    static spawn_creep(spawn, dry_run = false) {
+        let name = this.name + Game.time;
+        if (!dry_run) {
+            console.log(`Spawning creep ${name}`);
+        }
+        // TODO: Subclasses should be allowed to inject whatever they want
+        let memory = {
+            home: spawn.room.name,
+            working: false,
+            // TODO: deprecate in favor of assigned_role
+            role: this.name.toLowerCase(),
+            assigned_role: this.name,
+        };
+        let status = spawn.spawnCreep(this.components(), name, { memory: memory, dryRun: dry_run });
+        return status == OK;
+    }
+
+    /** Spawn a new creep assigned to this Role, if needed
+     *
+     * @param {StructureSpawn} spawn **/
+    static spawn_if_needed(spawn) {
+        // By exiting if the spawn is already spawning, we guarantee that this.spawn_creep() will
+        // only be called once
+        if (spawn.spawning) {
+            return;
+        }
+
+        // Determine if a new creep needs to be spawned
+        let total_needed = this.num_creeps_needed(spawn);
+        let actual = this.num_creeps_actual(spawn);
+        if (actual < total_needed) {
+            console.log(`${this.name} creep needed`);
+            let can_spawn = this.spawn_creep(spawn, true); // dry run
+            if (can_spawn) {
+                this.spawn_creep(spawn);
+            }
+        }
+    }
+
     /** @param {Creep} creep **/
     static update_work_state(creep) {
         // TODO: This could get smarter, and check if the carry.energy is lower than half capacity,
@@ -14,6 +84,14 @@ class Role {
 
     /** @param {Creep} creep **/
     static run(creep) {
+        // TODO: Remove this once spawning gets moved into Role
+        let spawn = Game.spawns["Spawn1"];
+        if (!creep.memory.home) {
+            creep.memory.home = spawn.room.name;
+        }
+        // if (!creep.memory.assigned_role) {
+        //     creep.memory.assigned_role = creep.memory.role;
+        // }
         this.update_work_state(creep);
         if (creep.memory.working == true) {
             this.run_in_work(creep);
