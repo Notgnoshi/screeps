@@ -4,10 +4,10 @@ class Role {
         // TODO: This could get smarter, and check if the carry.energy is lower than half capacity,
         // and an energy source is closer to the creep than the work site, then switch out of work
         if (creep.memory.working == true && creep.store.getUsedCapacity(RESOURCE_ENERGY) == 0) {
-            console.log(`Creep ${creep.name} stopping work; return to collect energy`);
+            // console.log(`Creep ${creep.name} stopping work; return to collect energy`);
             creep.memory.working = false;
         } else if (creep.memory.working == false && creep.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
-            console.log(`Creep ${creep.name} starting work; energy full`);
+            // console.log(`Creep ${creep.name} starting work; energy full`);
             creep.memory.working = true;
         }
     }
