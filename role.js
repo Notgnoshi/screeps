@@ -1,6 +1,8 @@
 class Role {
     /** @param {Creep} creep **/
     static update_work_state(creep) {
+        // TODO: This could get smarter, and check if the carry.energy is lower than half capacity,
+        // and an energy source is closer to the creep than the work site, then switch out of work
         if (creep.memory.working == true && creep.carry.energy == 0) {
             console.log(`Creep ${creep.name} stopping work; return to collect energy`);
             creep.memory.working = false;
