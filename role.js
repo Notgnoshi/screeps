@@ -23,7 +23,7 @@ class Role {
     }
 
     /** @param {Creep} creep **/
-    static run_in_work(creep) {}
+    static run_in_work(creep) {} // eslint-disable-line
 
     /** @param {Creep} creep **/
     static withdraw_from_container(creep) {
