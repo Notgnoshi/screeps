@@ -1,6 +1,7 @@
 let Role = require("role");
 
 class HaulerRole extends Role {
+    /** @param {Creep} creep **/
     static run_in_work(creep) {
         var structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
             filter: (s) =>
@@ -22,7 +23,7 @@ class HaulerRole extends Role {
         }
 
         if (creep.transfer(structure, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(structure, { visualizePathStyle: { stroke: "$FFFFFF" } });
+            creep.moveTo(structure, { visualizePathStyle: { stroke: "#FFFFFF" } });
         }
     }
 }

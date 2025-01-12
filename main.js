@@ -1,3 +1,4 @@
+let TowerRole = require("tower");
 let Roles = {
     builder: require("role.builder"),
     harvester: require("role.harvester"),
@@ -22,8 +23,8 @@ function spawn_creeps() {
         },
         {
             name: "hauler",
-            components: [WORK, WORK, CARRY, MOVE],
-            needed: 2,
+            components: [WORK, CARRY, CARRY, MOVE, MOVE],
+            needed: 3,
         },
         {
             name: "builder",
@@ -32,12 +33,12 @@ function spawn_creeps() {
         },
         {
             name: "repairer",
-            components: [WORK, WORK, CARRY, MOVE],
+            components: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
             needed: 2,
         },
         {
             name: "miner",
-            components: [WORK, WORK, WORK, WORK, CARRY, MOVE],
+            components: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
             needed: num_sources,
         },
     ];
@@ -57,9 +58,16 @@ function spawn_creeps() {
     }
 }
 
+function manage_towers() {
+    let my_towers = _.filter(Game.structures, (s) => s.structureType == STRUCTURE_TOWER);
+    for (let tower of my_towers) {
+        TowerRole.run(tower);
+    }
+}
+
 function manage_live_creeps() {
-    for (var name in Game.creeps) {
-        var creep = Game.creeps[name];
+    for (let name in Game.creeps) {
+        let creep = Game.creeps[name];
 
         if (Roles[creep.memory.role]) {
             Roles[creep.memory.role].run(creep);
@@ -83,6 +91,7 @@ function cleanup_dead_creeps() {
 function main() {
     cleanup_dead_creeps();
     spawn_creeps();
+    manage_towers();
     manage_live_creeps();
 }
 

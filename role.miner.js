@@ -3,9 +3,10 @@ let _ = require("lodash");
 let HarvesterRole = require("role.harvester");
 
 class MinerRole extends Role {
+    /** @param {Creep} creep **/
     static run_in_work(creep) {
         if (creep.memory.assigned_source == undefined) {
-            MinerRole.assign_miner_to_unclaimed_source(creep);
+            this.assign_miner_to_unclaimed_source(creep);
         }
 
         // Assignment failed. The creep should still do something useful
@@ -25,6 +26,7 @@ class MinerRole extends Role {
         }
     }
 
+    /** @param {Creep} creep **/
     static run_out_of_work(creep) {
         if (creep.memory.assigned_source == undefined) {
             HarvesterRole.run_out_of_work(creep);
@@ -37,6 +39,7 @@ class MinerRole extends Role {
         }
     }
 
+    /** @param {Creep} creep **/
     static assign_miner_to_unclaimed_source(creep) {
         console.log(`Attempting to assign miner ${creep.name} to an unclaimed source`);
         // Find unassigned sources

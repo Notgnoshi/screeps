@@ -2,6 +2,7 @@ let Role = require("role");
 let BuilderRole = require("role.builder");
 
 class HarvesterRole extends Role {
+    /** @param {Creep} creep **/
     static run_in_work(creep) {
         let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
             filter: (s) =>
@@ -19,9 +20,10 @@ class HarvesterRole extends Role {
         }
     }
 
+    /** @param {Creep} creep **/
     static run_out_of_work(creep) {
         // Harvest just from sources, not containers
-        Role.harvest_from_source(creep);
+        this.harvest_from_source(creep);
     }
 }
 
