@@ -18,7 +18,11 @@ class MinerRole extends Role {
         let source = Game.getObjectById(creep.memory.assigned_source);
 
         let container = source.pos.findInRange(FIND_STRUCTURES, 2, {
-            filter: (s) => s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE,
+            filter: (s) =>
+                (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE) &&
+                // If there are multiple containers available, only try to fill ones with space
+                // available
+                s.store.getFreeCapacity(RESOURCE_ENERGY) > 0,
         })[0];
 
         if (creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
