@@ -10,7 +10,7 @@ class HaulerRole extends Role {
                 (s.structureType == STRUCTURE_SPAWN ||
                     s.structureType == STRUCTURE_EXTENSION ||
                     s.structureType == STRUCTURE_TOWER) &&
-                s.energy < s.energyCapacity,
+                s.store.getFreeCapacity(RESOURCE_ENERGY) > 0,
         });
         // But still fill storage if possible, this will help keep the containers empty, so that the
         // miners can keep working

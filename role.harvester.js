@@ -9,7 +9,7 @@ class HarvesterRole extends Role {
                 (s.structureType == STRUCTURE_SPAWN ||
                     s.structureType == STRUCTURE_EXTENSION ||
                     s.structureType == STRUCTURE_TOWER) &&
-                s.energy < s.energyCapacity,
+                s.store.getFreeCapacity(RESOURCE_ENERGY) > 0,
         });
         if (structure != undefined) {
             if (creep.transfer(structure, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
