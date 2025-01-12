@@ -60,7 +60,7 @@ class Miner extends Role {
         // Find unassigned sources
         let all_sources = creep.room.find(FIND_SOURCES);
         let all_miners = creep.room.find(FIND_MY_CREEPS, {
-            filter: (c) => c.memory.role == "miner",
+            filter: (c) => c.memory.assigned_role == "miner",
         });
         let unassigned_sources = _.filter(all_sources, (s) => {
             for (let miner of all_miners) {

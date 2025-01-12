@@ -4,6 +4,10 @@ let _ = require("lodash");
 // potentially very complex inheritance tree? But now, moving spawning behavior into Roles, I'm
 // second guessing.
 class Role {
+    static role_name() {
+        return this.name.toLowerCase();
+    }
+
     /** Get the body components suitable for this Role in the given room
      *
      * @param {StructureSpawn} spawn **/
@@ -23,7 +27,7 @@ class Role {
      * @param {StructureSpawn} spawn **/
     static num_creeps_actual(spawn) {
         let creeps = spawn.room.find(FIND_MY_CREEPS);
-        let num = _.sum(creeps, (c) => c.memory.assigned_role == this.name || c.memory.role == this.name.toLowerCase());
+        let num = _.sum(creeps, (c) => c.memory.assigned_role == this.role_name());
         return num;
     }
 
@@ -39,9 +43,7 @@ class Role {
         let memory = {
             home: spawn.room.name,
             working: false,
-            // TODO: deprecate in favor of assigned_role
-            role: this.name.toLowerCase(),
-            assigned_role: this.name,
+            assigned_role: this.role_name(),
         };
         let status = spawn.spawnCreep(this.components(), name, { memory: memory, dryRun: dry_run });
         return status == OK;
@@ -89,9 +91,6 @@ class Role {
         if (!creep.memory.home) {
             creep.memory.home = spawn.room.name;
         }
-        // if (!creep.memory.assigned_role) {
-        //     creep.memory.assigned_role = creep.memory.role;
-        // }
         this.update_work_state(creep);
         if (creep.memory.working == true) {
             this.run_in_work(creep);

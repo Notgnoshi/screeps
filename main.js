@@ -29,12 +29,12 @@ function manage_towers() {
 function manage_live_creeps() {
     for (let name in Game.creeps) {
         let creep = Game.creeps[name];
+        let role_name = creep.memory.assigned_role;
 
-        if (Roles[creep.memory.role]) {
-            // console.log(`${Roles[creep.memory.role]}`);
-            Roles[creep.memory.role].run(creep);
+        if (Roles[role_name]) {
+            Roles[role_name].run(creep);
         } else {
-            console.log("Failed to find role " + creep.memory.role);
+            console.log("Failed to find role " + creep.memory.assigned_role);
             // fallback on harvester, because that's better than sitting still
             Roles["harvester"].run(creep);
         }
