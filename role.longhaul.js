@@ -34,17 +34,25 @@ class LongHaul extends Role {
             creep.memory.renewed = false;
         }
 
-        let available_containers = Game.rooms[creep.memory.home].find(FIND_MY_STRUCTURES, {
-            filter: (s) =>
-                (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE) &&
-                s.store.getFreeCapacity(RESOURCE_ENERGY) > 0,
-        });
-        if (available_containers.length > 0) {
-            // pick one
-            let container = available_containers[0];
+        let home_room = Game.rooms[creep.memory.home];
+
+        var container;
+        if (home_room.storage) {
+            container = home_room.storage;
+        } else {
+            let available_containers = home_room.find(FIND_MY_STRUCTURES, {
+                filter: (s) => s.structureType == STRUCTURE_CONTAINER && s.store.getFreeCapacity(RESOURCE_ENERGY) > 0,
+            });
+            if (available_containers.length > 0) {
+                container = available_containers[0];
+            }
+        }
+        if (container) {
             if (creep.transfer(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(container, { visualizePathStyle: { stroke: "#00FF00" } });
             }
+        } else {
+            console.log(`${creep.name} can't find any available containers in ${home_room.name} to offload to`);
         }
     }
 
