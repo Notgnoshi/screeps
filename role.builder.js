@@ -1,7 +1,17 @@
 let Role = require("role");
-let HaulerRole = require("role.hauler");
+let Upgrader = require("role.upgrader");
 
-class BuilderRole extends Role {
+class Builder extends Role {
+    /** @param {StructureSpawn} spawn **/
+    static components(spawn) {
+        return [WORK, WORK, CARRY, CARRY, MOVE];
+    }
+
+    /** @param {StructureSpawn} spawn **/
+    static num_creeps_needed(spawn) {
+        return 6;
+    }
+
     /** @param {Creep} creep **/
     static run_in_work(creep) {
         let site = creep.pos.findClosestByPath(FIND_CONSTRUCTION_SITES);
@@ -10,9 +20,9 @@ class BuilderRole extends Role {
                 creep.moveTo(site, { visualizePathStyle: { stroke: "#FFAA00" } });
             }
         } else {
-            HaulerRole.run_in_work(creep);
+            Upgrader.run_in_work(creep);
         }
     }
 }
 
-module.exports = BuilderRole;
+module.exports = Builder;

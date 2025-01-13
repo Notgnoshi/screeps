@@ -8,7 +8,9 @@ The `Role` class enables adding fallback behavior if a role cannot be performed
 
 ```mermaid
 flowchart TD
-    Miner --> Harvester --> Builder --> Hauler
+    LongHauler
+    Hauler --> Upgrader
+    Miner --> Harvester --> Builder --> Upgrader
     Repairer --> Builder
 ```
 
@@ -27,10 +29,12 @@ themselves if there's no energy available in a container.
   Falls back on `BuilderRole` if there's no need for hauling
 * `BuilderRole` - Builds any available construction sites
 
-  Falls back on `HaulerRole` if there's nothing to build
+  Falls back on `UpgraderRole` if there's nothing to build
 * `RepairerRole` - Repairs any damaged structures
 
   Falls back on `BuilderRole` if there's nothing to repair
+* `UpgraderRole` - Upgrades the room controller. Has no fallback, and is intended to be the fallback
+  of most roles.
 
 ## Vim ALE LSP configuration
 
@@ -49,11 +53,16 @@ npm install @types/lodash
   * [x] prettier
   * [x] eslint
 * [x] Add `Tower` behavior for repair and defense
-* [ ] Upgrading is too slow. Fallback roles aren't quite right
-* [ ] Need manager / logistics coordinator
-* [ ] `.energy` and `.energyCapacity` are deprecated in favor of `.store`
-* [ ] Make creep components dependent on energy availability (maybe max energy availability?)
-* [ ] Move creep spawning logic into `Role`s?
-* [ ] Add up to 5 `WORK` components to `MinerRole`s based on energy availability
-* [ ] Long-distance harvesting
-* [ ] Expand to other rooms
+* [x] Upgrading is too slow. Fallback roles aren't quite right
+* [ ] Need manager / logistics coordinator?
+* [x] `.energy` and `.energyCapacity` are deprecated in favor of `.store`
+* [x] Make creep components dependent on energy availability (maybe max energy availability?)
+* [x] Move creep spawning logic into `Role`s?
+* [x] Add up to 5 `WORK` components to `MinerRole`s based on energy availability
+* [x] Long-distance harvesting
+* [ ] More efficient long-distance harvesting
+* [ ] Expand to other rooms (requires upgrading GCL)
+* [ ] Increase upgrade rate proportional to energy intake
+* [x] Determine if `renewCreep()` is more energy efficient (why else would it exist?)
+* [x] Use `RoomVisual` to indicate what the spawn is spawning
+* [x] Enable picking up resources from the ground

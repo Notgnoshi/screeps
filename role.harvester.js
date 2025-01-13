@@ -1,7 +1,17 @@
 let Role = require("role");
-let BuilderRole = require("role.builder");
+let Builder = require("role.builder");
 
-class HarvesterRole extends Role {
+class Harvester extends Role {
+    /** @param {StructureSpawn} spawn **/
+    static components(spawn) {
+        return [WORK, WORK, CARRY, MOVE];
+    }
+
+    /** @param {StructureSpawn} spawn **/
+    static num_creeps_needed(spawn) {
+        return 1;
+    }
+
     /** @param {Creep} creep **/
     static run_in_work(creep) {
         let structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
@@ -9,22 +19,25 @@ class HarvesterRole extends Role {
                 (s.structureType == STRUCTURE_SPAWN ||
                     s.structureType == STRUCTURE_EXTENSION ||
                     s.structureType == STRUCTURE_TOWER) &&
-                s.energy < s.energyCapacity,
+                s.store.getFreeCapacity(RESOURCE_ENERGY) > 0,
         });
         if (structure != undefined) {
             if (creep.transfer(structure, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(structure, { visualizePathStyle: { stroke: "#FFAA00" } });
             }
         } else {
-            BuilderRole.run_in_work(creep);
+            Builder.run_in_work(creep);
         }
     }
 
     /** @param {Creep} creep **/
     static run_out_of_work(creep) {
         // Harvest just from sources, not containers
+        if (this.pickup_dropped_energy(creep)) {
+            return;
+        }
         this.harvest_from_source(creep);
     }
 }
 
-module.exports = HarvesterRole;
+module.exports = Harvester;

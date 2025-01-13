@@ -32,12 +32,25 @@ class TowerRole {
 
     /** @param {StructureTower} tower **/
     static repair(tower) {
-        let closest_damaged = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+        let all_damaged = tower.room.find(FIND_STRUCTURES, {
             filter: (s) => s.hits < s.hitsMax,
         });
+        var repair_target;
+        for (let percent = 0.01; percent <= 1; percent = percent + 0.01) {
+            for (let damaged of all_damaged) {
+                if (damaged.hits / damaged.hitsMax < percent) {
+                    repair_target = damaged;
+                    break;
+                }
+                // need to break out of the outer loop too
+                if (repair_target) {
+                    break;
+                }
+            }
+        }
 
-        if (closest_damaged) {
-            tower.repair(closest_damaged);
+        if (repair_target) {
+            tower.repair(repair_target);
             return true;
         }
         return false;

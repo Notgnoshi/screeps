@@ -1,25 +1,36 @@
 let Role = require("role");
+let Upgrader = require("role.upgrader");
 
-class HaulerRole extends Role {
+class Hauler extends Role {
+    /** @param {StructureSpawn} spawn **/
+    static components(spawn) {
+        return [WORK, CARRY, CARRY, MOVE, MOVE];
+    }
+
+    /** @param {StructureSpawn} spawn **/
+    static num_creeps_needed(spawn) {
+        return 3;
+    }
+
     /** @param {Creep} creep **/
     static run_in_work(creep) {
+        // Prioritize "useful" buildings over storage
         var structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
             filter: (s) =>
                 (s.structureType == STRUCTURE_SPAWN ||
                     s.structureType == STRUCTURE_EXTENSION ||
                     s.structureType == STRUCTURE_TOWER) &&
-                s.energy < s.energyCapacity,
+                s.store.getFreeCapacity(RESOURCE_ENERGY) > 0,
         });
+        // But still fill storage if possible, this will help keep the containers empty, so that the
+        // miners can keep working
         if (structure == undefined) {
             structure = creep.room.storage;
         }
 
         // If there's nothing to haul to, upgrade the controller
         if (structure == undefined) {
-            if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: "#FFAA00" } });
-            }
-            return;
+            return Upgrader.run_in_work(creep);
         }
 
         if (creep.transfer(structure, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
@@ -27,4 +38,4 @@ class HaulerRole extends Role {
         }
     }
 }
-module.exports = HaulerRole;
+module.exports = Hauler;
