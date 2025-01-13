@@ -5,8 +5,23 @@ let Harvester = require("role.harvester");
 class Miner extends Role {
     /** @param {StructureSpawn} spawn **/
     static components(spawn) {
-        // TODO: Make the #WORK components depend on available energy
-        return [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE];
+        var energy_available = spawn.room.energyCapacityAvailable;
+        let base_energy_cost = 50 + 50; // the base CARRY + MOVE
+        energy_available -= base_energy_cost;
+        var possible_works = Math.floor(energy_available / 100);
+        // Each WORK component harvests 2 energy / tick. Each source is 3000 energy, regenerated
+        // every 300 ticks. That means a maximum of 5 WORK components is needed to max out
+        // harvesting, so long as the miner is always working.
+        let max_works = 6;
+        possible_works = Math.min(possible_works, max_works);
+        possible_works = Math.max(2, possible_works); // always at least two WORKs
+
+        var components = [CARRY, MOVE];
+        for (let i = 0; i < possible_works; i++) {
+            components.push(WORK);
+        }
+
+        return components;
     }
 
     /** @param {StructureSpawn} spawn **/

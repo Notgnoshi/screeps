@@ -36,8 +36,9 @@ class Role {
      * @param {StructureSpawn} spawn **/
     static spawn_creep(spawn, dry_run = false) {
         let name = this.name + Game.time;
+        let components = this.components(spawn);
         if (!dry_run) {
-            console.log(`Spawning creep ${name}`);
+            console.log(`Spawning creep ${name} with components ${components}`);
         }
         // TODO: Subclasses should be allowed to inject whatever they want
         let memory = {
@@ -45,7 +46,7 @@ class Role {
             working: false,
             assigned_role: this.role_name(),
         };
-        let status = spawn.spawnCreep(this.components(), name, { memory: memory, dryRun: dry_run });
+        let status = spawn.spawnCreep(components, name, { memory: memory, dryRun: dry_run });
         return status == OK;
     }
 
