@@ -3,6 +3,7 @@ let Roles = {
     builder: require("role.builder"),
     harvester: require("role.harvester"),
     hauler: require("role.hauler"),
+    longhaul: require("role.longhaul"),
     miner: require("role.miner"),
     repairer: require("role.repairer"),
     upgrader: require("role.upgrader"),
