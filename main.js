@@ -34,7 +34,7 @@ function manage_live_creeps() {
         if (Roles[role_name]) {
             Roles[role_name].run(creep);
         } else {
-            console.log("Failed to find role " + creep.memory.assigned_role);
+            console.log(`Failed to find role ${role_name} for creep ${creep.name}`);
             // fallback on harvester, because that's better than sitting still
             Roles["harvester"].run(creep);
         }
