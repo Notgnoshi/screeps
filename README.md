@@ -55,8 +55,11 @@ npm install @types/lodash
 * [x] Upgrading is too slow. Fallback roles aren't quite right
 * [ ] Need manager / logistics coordinator
 * [x] `.energy` and `.energyCapacity` are deprecated in favor of `.store`
-* [X] Make creep components dependent on energy availability (maybe max energy availability?)
-* [X] Move creep spawning logic into `Role`s?
-* [X] Add up to 5 `WORK` components to `MinerRole`s based on energy availability
-* [ ] Long-distance harvesting
+* [x] Make creep components dependent on energy availability (maybe max energy availability?)
+* [x] Move creep spawning logic into `Role`s?
+* [x] Add up to 5 `WORK` components to `MinerRole`s based on energy availability
+* [x] Long-distance harvesting
 * [ ] Expand to other rooms
+* [x] Determine if `renewCreep()` is more energy efficient (why else would it exist?)
+* [x] Use `RoomVisual` to indicate what the spawn is spawning
+* [x] Enable picking up resources from the ground

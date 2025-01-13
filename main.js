@@ -13,6 +13,9 @@ let _ = require("lodash");
 
 function spawn_creeps() {
     let spawn = Game.spawns["Spawn1"];
+    if (spawn.spawning) {
+        spawn.room.visual.text(spawn.spawning.name, spawn.pos.x, spawn.pos.y);
+    }
 
     for (let role_name in Roles) {
         let role = Roles[role_name];
