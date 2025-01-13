@@ -8,6 +8,7 @@ The `Role` class enables adding fallback behavior if a role cannot be performed
 
 ```mermaid
 flowchart TD
+    LongHauler
     Hauler --> Upgrader
     Miner --> Harvester --> Builder --> Upgrader
     Repairer --> Builder

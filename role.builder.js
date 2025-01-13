@@ -9,7 +9,7 @@ class Builder extends Role {
 
     /** @param {StructureSpawn} spawn **/
     static num_creeps_needed(spawn) {
-        return 4;
+        return 6;
     }
 
     /** @param {Creep} creep **/
