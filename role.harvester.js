@@ -33,6 +33,9 @@ class Harvester extends Role {
     /** @param {Creep} creep **/
     static run_out_of_work(creep) {
         // Harvest just from sources, not containers
+        if (this.pickup_dropped_energy(creep)) {
+            return;
+        }
         this.harvest_from_source(creep);
     }
 }

@@ -104,6 +104,18 @@ class Role {
     static run_in_work(creep) {} // eslint-disable-line
 
     /** @param {Creep} creep **/
+    static pickup_dropped_energy(creep) {
+        let dropped = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
+        if (!dropped) {
+            return false;
+        }
+        if (creep.pickup(dropped) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(dropped, { visualizePathStyle: { stroke: "#FFFF00" } });
+        }
+        return true;
+    }
+
+    /** @param {Creep} creep **/
     static withdraw_from_container(creep) {
         let container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
             filter: (s) =>
@@ -129,9 +141,13 @@ class Role {
 
     /** @param {Creep} creep **/
     static run_out_of_work(creep) {
-        if (!this.withdraw_from_container(creep)) {
-            this.harvest_from_source(creep);
+        if (this.pickup_dropped_energy(creep)) {
+            return;
         }
+        if (this.withdraw_from_container(creep)) {
+            return;
+        }
+        this.harvest_from_source(creep);
     }
 }
 
