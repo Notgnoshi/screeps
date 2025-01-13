@@ -26,8 +26,10 @@ class Role {
      *
      * @param {StructureSpawn} spawn **/
     static num_creeps_actual(spawn) {
-        let creeps = spawn.room.find(FIND_MY_CREEPS);
-        let num = _.sum(creeps, (c) => c.memory.assigned_role == this.role_name());
+        let num = _.sum(
+            Game.creeps,
+            (c) => c.memory.assigned_role == this.role_name() && c.memory.home == spawn.room.name,
+        );
         return num;
     }
 
