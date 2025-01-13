@@ -6,8 +6,19 @@ Memory.long_haul_room_assignments = { W7N3: 3, W8N2: 2 };
 class LongHaul extends Role {
     /** @param {StructureSpawn} spawn **/
     static components(spawn) {
-        // TODO: Tune components for long hauling
-        return super.components(spawn);
+        var components = [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE];
+        let base_cost = 100 + 100 + 100 + 50 + 50 + 50 + 50;
+        var energy_available = spawn.room.energyCapacityAvailable;
+        energy_available -= base_cost;
+        var possible_pairs = Math.floor(energy_available / 100); // number of additional CARRY+MOVE pairs we can add
+        possible_pairs = Math.min(50 - components.length, possible_pairs);
+
+        for (let i = 0; i < possible_pairs; i++) {
+            components.push(CARRY);
+            components.push(MOVE);
+        }
+
+        return components;
     }
 
     /** @param {StructureSpawn} spawn **/
