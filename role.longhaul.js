@@ -30,7 +30,10 @@ class LongHaul extends Role {
      *
      * @param {Creep} creep **/
     static run_in_work(creep) {
-        // TODO: head to the spawn first to renew the creep
+        if (creep.room.name == creep.memory.home) {
+            creep.memory.renewed = false;
+        }
+
         let available_containers = Game.rooms[creep.memory.home].find(FIND_MY_STRUCTURES, {
             filter: (s) =>
                 (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_STORAGE) &&
@@ -66,10 +69,21 @@ class LongHaul extends Role {
                 creep.moveTo(source, { visualizePathStyle: { stroke: "#FFFFFF" } });
             }
         }
-        // Get to the target room
+        // Renew the creep and then get to the target room
         else {
-            let exit = creep.room.findExitTo(creep.memory.target_room);
-            creep.moveTo(creep.pos.findClosestByPath(exit), { visualizePathStyle: { stroke: "#FF0000" } });
+            if (!creep.memory.renewed && creep.room.name == creep.memory.home) {
+                let spawn = creep.room.find(FIND_MY_SPAWNS)[0];
+                let status = spawn.renewCreep(creep);
+                if (status == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(spawn);
+                } else if (status == ERR_FULL || status == ERR_NOT_ENOUGH_ENERGY) {
+                    console.log(`Finished renewing creep ${creep.name}`);
+                    creep.memory.renewed = true;
+                }
+            } else {
+                let exit = creep.room.findExitTo(creep.memory.target_room);
+                creep.moveTo(creep.pos.findClosestByPath(exit), { visualizePathStyle: { stroke: "#FF0000" } });
+            }
         }
     }
 
